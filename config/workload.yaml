@@ -1,0 +1,31 @@
+apiVersion: carto.run/v1alpha1
+kind: Workload
+metadata:
+  name: "aci-adr-{{STAGE_NAME}}"
+  namespace: aci-adr
+  labels:
+    apps.tanzu.vmware.com/has-tests: "true"
+    apps.tanzu.vmware.com/workload-type: server
+    app.kubernetes.io/part-of: "aci-adr-{{STAGE_NAME}}"
+spec:
+  env:
+    - name: MONGODB_URI
+      valueFrom:
+        secretKeyRef:
+          name: mongo-config
+          key: MONGODB_URI
+    - name: DB_NAME
+      value: "{{DB_NAME}}"
+    - name: STAGE_NAME
+      value: "{{STAGE_NAME}}"
+    - name: NATS_URI
+      value: "{{NATS_URI}}"
+    - name: LISTEN_SUBJECT
+      value: "{{LISTEN_SUBJECT}}"
+    - name: GROUP
+      value: "{{GROUP}}"
+  source:
+    git:
+      url: https://github.com/aci-adr/aci-adr-{{STAGE_NAME}}.git
+      ref:
+        branch: main

@@ -1,0 +1,50 @@
+accelerator:
+  displayName: Go nats Jetstream listener
+  description: Contains structure and necessary reusable components for Go Application framework
+  iconUrl: https://blogs.vmware.com/wp-content/uploads/2022/02/tap.png
+  tags:
+    - GO
+  options:
+    - name: dbName
+      label: Database Name
+      inputType: text
+      defaultValue: fx_data
+      required: true
+    - name: stageName
+      label: Application Name
+      inputType: text
+      defaultValue: payment-entry
+      required: true
+    - name: natsUri
+      label: Nats URI
+      inputType: text
+      defaultValue: nats://10.0.217.253:4222
+      required: true
+    - name: listenSubject
+      label: Listen to subject
+      inputType: text
+      defaultValue: PMT.ENTRY
+      required: true
+    - name: group
+      label: Request Reply Group
+      inputType: text
+      defaultValue: default
+      required: true
+# Place this after the `options` section from the previous step
+engine:
+  merge:
+    - include: ["**"]
+    - include: ["**/workload.yaml"]
+      chain:
+        - type: ReplaceText
+          substitutions:
+            - text: "{{DB_NAME}}"
+              with: "#dbName"
+            - text: "{{STAGE_NAME}}"
+              with: "#stageName"
+            - text: "{{NATS_URI}}"
+              with: "#natsUri"
+            - text: "{{LISTEN_SUBJECT}}"
+              with: "#listenSubject"
+            - text: "{{GROUP}}"
+              with: "#group"
