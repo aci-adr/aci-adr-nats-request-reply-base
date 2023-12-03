@@ -1,5 +1,5 @@
 accelerator:
-  displayName: Go nats Jetstream listener
+  displayName: Go nats request reply listener
   description: Contains structure and necessary reusable components for Go Application framework
   iconUrl: https://blogs.vmware.com/wp-content/uploads/2022/02/tap.png
   tags:
